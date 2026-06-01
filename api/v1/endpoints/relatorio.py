@@ -18,7 +18,6 @@ router = APIRouter()
 )
 async def listar_relatorios(
     db: AsyncSession = Depends(get_session),
-    usuario_atual=Depends(get_usuario_atual)
 ):
     async with db as session:
         result = await session.execute(select(RelatorioModel))
@@ -33,7 +32,6 @@ async def listar_relatorios(
 async def buscar_relatorio(
     idRelatorio: int,
     db: AsyncSession = Depends(get_session),
-    usuario_atual=Depends(get_usuario_atual)
 ):
     async with db as session:
         result = await session.execute(
@@ -54,7 +52,6 @@ async def buscar_relatorio(
 async def criar_relatorio(
     dados: RelatorioCriarSchema,
     db: AsyncSession = Depends(get_session),
-    usuario_atual=Depends(get_usuario_atual)
 ):
     novo = RelatorioModel(**dados.model_dump())
     async with db as session:
@@ -72,7 +69,6 @@ async def criar_relatorio(
 async def excluir_relatorio(
     idRelatorio: int,
     db: AsyncSession = Depends(get_session),
-    usuario_atual=Depends(get_usuario_atual)
 ):
     async with db as session:
         result = await session.execute(
