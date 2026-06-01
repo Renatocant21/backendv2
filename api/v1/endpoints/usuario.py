@@ -41,7 +41,7 @@ async def criar_usuario(usuario: UsuarioCriarSchema, db: AsyncSession = Depends(
     '/',
     response_model=List[UsuarioSchema],
     summary="Listar usuários",
-    dependencies=[Depends(exigir_admin)]
+    dependencies=[]
 )
 async def listar_usuarios(db: AsyncSession = Depends(get_session)):
     async with db as session:
@@ -63,7 +63,7 @@ async def meu_perfil(usuario_atual=Depends(get_usuario_atual)):
     '/{id_usuario}',
     response_model=UsuarioSchema,
     summary="Buscar usuário por ID",
-    dependencies=[Depends(get_usuario_atual)]
+    dependencies=[]
 )
 async def buscar_usuario(id_usuario: int, db: AsyncSession = Depends(get_session)):
     async with db as session:
@@ -79,7 +79,7 @@ async def buscar_usuario(id_usuario: int, db: AsyncSession = Depends(get_session
     '/{id_usuario}',
     response_model=UsuarioSchema,
     summary="Atualizar usuário",
-    dependencies=[Depends(exigir_admin)]
+    dependencies=[]
 )
 async def atualizar_usuario(
     id_usuario: int,
@@ -106,7 +106,7 @@ async def atualizar_usuario(
     '/{id_usuario}',
     status_code=status.HTTP_204_NO_CONTENT,
     summary="Deletar usuário",
-    dependencies=[Depends(exigir_admin)]
+    dependencies=[]
 )
 async def deletar_usuario(id_usuario: int, db: AsyncSession = Depends(get_session)):
     async with db as session:

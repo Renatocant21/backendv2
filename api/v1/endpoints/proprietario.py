@@ -14,7 +14,7 @@ router = APIRouter()
     status_code=status.HTTP_201_CREATED,
     response_model=ProprietarioSchema,
     summary="Cadastrar proprietário",
-    dependencies=[Depends(exigir_admin)]
+    dependencies=[]
 )
 async def criar_proprietario(prop: ProprietarioSchema, db: AsyncSession = Depends(get_session)):
     novo_proprietario = ProprietarioModel(CPF=prop.CPF, Nome=prop.Nome)
@@ -27,7 +27,7 @@ async def criar_proprietario(prop: ProprietarioSchema, db: AsyncSession = Depend
     '/',
     response_model=List[ProprietarioSchema],
     summary="Listar proprietários",
-    dependencies=[Depends(get_usuario_atual)]
+    dependencies=[]
 )
 async def listar_proprietarios(db: AsyncSession = Depends(get_session)):
     async with db as session:
@@ -40,7 +40,7 @@ async def listar_proprietarios(db: AsyncSession = Depends(get_session)):
     '/{cpf}',
     response_model=ProprietarioSchema,
     summary="Buscar proprietário por CPF",
-    dependencies=[Depends(get_usuario_atual)]
+    dependencies=[]
 )
 async def buscar_proprietario(cpf: str, db: AsyncSession = Depends(get_session)):
     async with db as session:
@@ -56,7 +56,7 @@ async def buscar_proprietario(cpf: str, db: AsyncSession = Depends(get_session))
     '/{cpf}',
     response_model=ProprietarioSchema,
     summary="Atualizar proprietário",
-    dependencies=[Depends(exigir_admin)]
+    dependencies=[]
 )
 async def atualizar_proprietario(cpf: str, prop: ProprietarioSchema, db: AsyncSession = Depends(get_session)):
     async with db as session:
@@ -74,7 +74,7 @@ async def atualizar_proprietario(cpf: str, prop: ProprietarioSchema, db: AsyncSe
     '/{cpf}',
     status_code=status.HTTP_204_NO_CONTENT,
     summary="Deletar proprietário",
-    dependencies=[Depends(exigir_admin)]
+    dependencies=[]
 )
 async def deletar_proprietario(cpf: str, db: AsyncSession = Depends(get_session)):
     async with db as session:
