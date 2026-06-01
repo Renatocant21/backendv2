@@ -52,7 +52,7 @@ async def listar_veiculos(db: AsyncSession = Depends(get_session)):
 async def consultar_placa(
     placa: str,
     db: AsyncSession = Depends(get_session),
-    usuario_atual=Depends(get_usuario_atual)
+    
 ):
     async with db as session:
         query = select(VeiculoModel, ProprietarioModel).join(
