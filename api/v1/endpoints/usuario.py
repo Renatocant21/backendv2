@@ -117,3 +117,4 @@ async def deletar_usuario(id_usuario: int, db: AsyncSession = Depends(get_sessio
             raise HTTPException(status_code=404, detail="Usuário não encontrado")
         await session.delete(usuario)
         await session.commit()
+

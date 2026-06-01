@@ -85,3 +85,4 @@ async def deletar_proprietario(cpf: str, db: AsyncSession = Depends(get_session)
             raise HTTPException(status_code=404, detail="Proprietário não encontrado")
         await session.delete(proprietario)
         await session.commit()
+
