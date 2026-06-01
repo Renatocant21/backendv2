@@ -115,3 +115,4 @@ async def listar_recuperacoes(
     async with db as session:
         result = await session.execute(select(RecuperarSenhaModel))
         return result.scalars().all()
+

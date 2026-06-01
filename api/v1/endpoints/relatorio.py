@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
-from core.deps import get_session, get_usuario_atual
+from core.deps import get_session
 from models.relatorio_model import RelatorioModel
 from schemas.relatorio_schema import RelatorioCriarSchema, RelatorioSchema
 
@@ -83,3 +83,4 @@ async def excluir_relatorio(
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Relatório não encontrado")
         await session.delete(relatorio)
         await session.commit()
+

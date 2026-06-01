@@ -2,7 +2,7 @@ from typing import List
 from fastapi import APIRouter, status, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from core.deps import get_session, get_usuario_atual, exigir_admin
+from core.deps import get_session
 from models.veiculo_model import VeiculoModel
 from models.proprietario_model import ProprietarioModel
 from models.consulta_model import ConsultaModel
@@ -17,7 +17,7 @@ router = APIRouter()
     status_code=status.HTTP_201_CREATED,
     response_model=VeiculoSchema,
     summary="Cadastrar veículo",
-    dependencies=[Depends(exigir_admin)]
+    dependencies=[]
 )
 async def criar_veiculo(veic: VeiculoSchema, db: AsyncSession = Depends(get_session)):
     novo_veiculo = VeiculoModel(
@@ -34,7 +34,7 @@ async def criar_veiculo(veic: VeiculoSchema, db: AsyncSession = Depends(get_sess
     '/',
     response_model=List[VeiculoSchema],
     summary="Listar veículos",
-    dependencies=[Depends(get_usuario_atual)]
+    dependencies=[]
 )
 async def listar_veiculos(db: AsyncSession = Depends(get_session)):
     async with db as session:
@@ -92,7 +92,7 @@ async def consultar_placa(
     '/{placa}',
     response_model=VeiculoSchema,
     summary="Buscar veículo por placa",
-    dependencies=[Depends(get_usuario_atual)]
+    dependencies=[]
 )
 async def buscar_veiculo(placa: str, db: AsyncSession = Depends(get_session)):
     async with db as session:
@@ -109,7 +109,7 @@ async def buscar_veiculo(placa: str, db: AsyncSession = Depends(get_session)):
     status_code=status.HTTP_204_NO_CONTENT,
     summary="Excluir veículo",
     description="Remove um veículo pelo número de placa. Requer permissão de administrador.",
-    dependencies=[Depends(exigir_admin)]
+    dependencies=[]
 )
 async def deletar_veiculo(placa: str, db: AsyncSession = Depends(get_session)):
     async with db as session:
@@ -120,3 +120,4 @@ async def deletar_veiculo(placa: str, db: AsyncSession = Depends(get_session)):
             raise HTTPException(status_code=404, detail="Veículo não encontrado")
         await session.delete(veiculo)
         await session.commit()
+

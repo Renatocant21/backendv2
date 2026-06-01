@@ -2,7 +2,7 @@ from typing import List
 from fastapi import APIRouter, status, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from core.deps import get_session, get_usuario_atual, exigir_admin
+from core.deps import get_session
 from models.restricao_model import RestricaoModel
 from models.veiculo_model import VeiculoModel
 from schemas.restricao_schema import RestricaoSchema
@@ -15,7 +15,7 @@ router = APIRouter()
     status_code=status.HTTP_201_CREATED,
     response_model=RestricaoSchema,
     summary="Registrar restrição",
-    dependencies=[Depends(exigir_admin)]
+    dependencies=[]
 )
 async def criar_restricao(restricao: RestricaoSchema, db: AsyncSession = Depends(get_session)):
     nova_restricao = RestricaoModel(Placa=restricao.Placa, tipoRestricao=restricao.tipoRestricao)
@@ -33,7 +33,7 @@ async def criar_restricao(restricao: RestricaoSchema, db: AsyncSession = Depends
     '/',
     response_model=List[RestricaoSchema],
     summary="Listar restrições",
-    dependencies=[Depends(get_usuario_atual)]
+    dependencies=[]
 )
 async def listar_restricoes(db: AsyncSession = Depends(get_session)):
     async with db as session:
@@ -46,7 +46,7 @@ async def listar_restricoes(db: AsyncSession = Depends(get_session)):
     '/{placa}',
     response_model=RestricaoSchema,
     summary="Buscar restrição por placa",
-    dependencies=[Depends(get_usuario_atual)]
+    dependencies=[]
 )
 async def buscar_restricao(placa: str, db: AsyncSession = Depends(get_session)):
     async with db as session:
@@ -62,7 +62,7 @@ async def buscar_restricao(placa: str, db: AsyncSession = Depends(get_session)):
     '/{placa}',
     status_code=status.HTTP_204_NO_CONTENT,
     summary="Remover restrição",
-    dependencies=[Depends(exigir_admin)]
+    dependencies=[]
 )
 async def deletar_restricao(placa: str, db: AsyncSession = Depends(get_session)):
     async with db as session:
@@ -78,3 +78,4 @@ async def deletar_restricao(placa: str, db: AsyncSession = Depends(get_session))
         if veiculo:
             veiculo.Situacao = 'REGULAR'
         await session.commit()
+

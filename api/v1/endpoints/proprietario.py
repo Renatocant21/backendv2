@@ -2,7 +2,7 @@ from typing import List
 from fastapi import APIRouter, status, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from core.deps import get_session, get_usuario_atual, exigir_admin
+from core.deps import get_session
 from models.proprietario_model import ProprietarioModel
 from schemas.proprietario_schema import ProprietarioSchema
 
@@ -85,4 +85,5 @@ async def deletar_proprietario(cpf: str, db: AsyncSession = Depends(get_session)
             raise HTTPException(status_code=404, detail="Proprietário não encontrado")
         await session.delete(proprietario)
         await session.commit()
+
 

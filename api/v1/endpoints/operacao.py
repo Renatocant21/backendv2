@@ -2,7 +2,7 @@ from typing import List
 from fastapi import APIRouter, status, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from core.deps import get_session, get_usuario_atual, exigir_admin
+from core.deps import get_session
 from models.operacao_model import OperacaoModel
 from schemas.operacao_schema import OperacaoSchema
 
@@ -13,7 +13,7 @@ router = APIRouter()
     '/',
     response_model=List[OperacaoSchema],
     summary="Listar operações",
-    dependencies=[Depends(exigir_admin)]
+    dependencies=[]
 )
 async def listar_operacoes(db: AsyncSession = Depends(get_session)):
     async with db as session:
@@ -26,7 +26,7 @@ async def listar_operacoes(db: AsyncSession = Depends(get_session)):
     '/usuario/{id_usuario}',
     response_model=List[OperacaoSchema],
     summary="Operações por usuário",
-    dependencies=[Depends(get_usuario_atual)]
+    dependencies=[]
 )
 async def buscar_operacoes_por_usuario(id_usuario: int, db: AsyncSession = Depends(get_session)):
     async with db as session:
@@ -35,3 +35,4 @@ async def buscar_operacoes_por_usuario(id_usuario: int, db: AsyncSession = Depen
         ).order_by(OperacaoModel.dataHora.desc())
         result = await session.execute(query)
         return result.scalars().all()
+

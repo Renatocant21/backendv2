@@ -4,7 +4,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
-from core.deps import get_session, get_usuario_atual
+from core.deps import get_session
 from core.security import verificar_senha, criar_token_acesso
 from models.usuario_model import UsuarioModel
 from models.acesso_model import AcessoModel
@@ -95,3 +95,4 @@ async def listar_acessos(
     async with db as session:
         result = await session.execute(select(AcessoModel))
         return result.scalars().all()
+
